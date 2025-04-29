@@ -6,9 +6,9 @@ import heapq
 class Node:
     def __init__(
         self,
-        char: str | None = None,
-        freq: float = 0,
-        left: Node | None = None,
+        char: str | None = None, #Символ
+        freq: float = 0,  #Частота
+        left: Node | None = None, #левый и правый дочерние узлы
         right: Node | None = None,
     ):
         self.char = char
@@ -16,15 +16,15 @@ class Node:
         self.left = left
         self.right = right
 
-    def __lt__(self, other):
+    def __lt__(self, other): #функция сравнения частот
         return self.freq < other.freq
 
 
-def huffman_encode(text: str, freq_dict: dict[str, int]) -> str:
+def huffman_encode(text: str, freq_dict: dict[str, int]) -> str: #Принимает текст и словарь частот символов
     """Кодируем строку по алгоритму Хаффмана."""
     codes = _compress_by_huffman_codes(freq_dict)
 
-    return "".join(codes[ch] for ch in text if ch in codes)
+    return "".join(codes[ch] for ch in text if ch in codes) #Возвращает строку из битов (0 и 1)
 
 
 def _compress_by_huffman_codes(freq_dict: dict[str, int]) -> dict[str, str]:
@@ -59,13 +59,13 @@ def _build_huffman_tree(freq_dict: dict[str, int]) -> Node:
 
 
 def _assign_codes(node: Node, code: str = "", code_dict: dict | None = None) -> dict[str, str]:
-    if code_dict is None:
-        code_dict = {}
+    if code_dict is None: #Если code_dict не передан (первый вызов функции),
+        code_dict = {}  # создаётся пустой словарь.
 
     if node is None:
         return code_dict
 
-    if node.char is not None:
+    if node.char is not None: # Проверяет, содержит ли узел символ (листовой узел)
         code_dict[node.char] = code or "0"
     else:
         _assign_codes(node.left, code + "0", code_dict)
