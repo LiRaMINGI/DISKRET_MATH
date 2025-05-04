@@ -45,7 +45,7 @@ def _build_huffman_tree(freq_dict: dict[str, int]) -> Node:
 
     heap = []
     # Создаём узлы для каждого символа и добавляем их в кучу
-    for char, freq in freq_dict.items():
+    for char, freq in freq_dict.items():   #Создаем начальные узлы и помещаем их в кучу
         heapq.heappush(heap, Node(char, freq))
 
     # Объединяем два узла с наименьшей частотой до получения одного корня
@@ -62,7 +62,7 @@ def _assign_codes(node: Node, code: str = "", code_dict: dict | None = None) -> 
     if code_dict is None: #Если code_dict не передан (первый вызов функции),
         code_dict = {}  # создаётся пустой словарь.
 
-    if node is None:
+    if node is None: #тупиковый случай
         return code_dict
 
     if node.char is not None: # Проверяет, содержит ли узел символ (листовой узел)
